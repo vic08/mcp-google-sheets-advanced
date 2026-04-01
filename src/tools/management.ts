@@ -102,7 +102,18 @@ export function registerManagementTools(server: McpServer, sheetsService: Sheets
             setBasicFilter: {
               filter: {
                 range: gridRange,
-                criteria: (criteria ?? undefined) as Record<string, { condition?: { type?: string; values?: Array<{ userEnteredValue?: string }> }; hiddenValues?: string[] }> | undefined,
+                criteria: (criteria ?? undefined) as
+                  | Record<
+                      string,
+                      {
+                        condition?: {
+                          type?: string;
+                          values?: Array<{ userEnteredValue?: string }>;
+                        };
+                        hiddenValues?: string[];
+                      }
+                    >
+                  | undefined,
               },
             },
           },
@@ -182,11 +193,23 @@ export function registerManagementTools(server: McpServer, sheetsService: Sheets
       replacement: z.string().describe('The text to replace with'),
       range: z.string().optional().describe('Optional A1 notation range to limit the search'),
       match_case: z.boolean().optional().describe('Whether the search is case-sensitive'),
-      match_entire_cell: z.boolean().optional().describe('Whether to match the entire cell content'),
+      match_entire_cell: z
+        .boolean()
+        .optional()
+        .describe('Whether to match the entire cell content'),
       search_formulas: z.boolean().optional().describe('Whether to search within formulas'),
       use_regex: z.boolean().optional().describe('Whether to treat the find string as a regex'),
     },
-    async ({ spreadsheet_id, find, replacement, range, match_case, match_entire_cell, search_formulas, use_regex }) => {
+    async ({
+      spreadsheet_id,
+      find,
+      replacement,
+      range,
+      match_case,
+      match_entire_cell,
+      search_formulas,
+      use_regex,
+    }) => {
       try {
         let sheetId: number | undefined;
 

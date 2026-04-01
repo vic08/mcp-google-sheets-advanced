@@ -30,11 +30,7 @@ export function registerMetadataTools(
           content: [
             {
               type: 'text' as const,
-              text: JSON.stringify(
-                { spreadsheets, total: spreadsheets.length },
-                null,
-                2,
-              ),
+              text: JSON.stringify({ spreadsheets, total: spreadsheets.length }, null, 2),
             },
           ],
         };
@@ -80,7 +76,7 @@ export function registerMetadataTools(
           spreadsheet.namedRanges?.map((nr) => {
             const sheetTitle =
               nr.range?.sheetId != null
-                ? sheetIdToTitle.get(nr.range.sheetId) ?? 'Unknown'
+                ? (sheetIdToTitle.get(nr.range.sheetId) ?? 'Unknown')
                 : 'Unknown';
             return {
               name: nr.name,
@@ -122,14 +118,9 @@ export function registerMetadataTools(
     },
     async ({ spreadsheet_id, sheet_name }) => {
       try {
-        const spreadsheet = await sheetsService.getSpreadsheet(
-          spreadsheet_id,
-          'sheets.properties',
-        );
+        const spreadsheet = await sheetsService.getSpreadsheet(spreadsheet_id, 'sheets.properties');
 
-        const sheet = spreadsheet.sheets?.find(
-          (s) => s.properties?.title === sheet_name,
-        );
+        const sheet = spreadsheet.sheets?.find((s) => s.properties?.title === sheet_name);
 
         if (!sheet) {
           return {
@@ -200,7 +191,7 @@ export function registerMetadataTools(
           spreadsheet.namedRanges?.map((nr) => {
             const sheetTitle =
               nr.range?.sheetId != null
-                ? sheetIdToTitle.get(nr.range.sheetId) ?? 'Unknown'
+                ? (sheetIdToTitle.get(nr.range.sheetId) ?? 'Unknown')
                 : 'Unknown';
             return {
               name: nr.name,
@@ -213,11 +204,7 @@ export function registerMetadataTools(
           content: [
             {
               type: 'text' as const,
-              text: JSON.stringify(
-                { namedRanges, total: namedRanges.length },
-                null,
-                2,
-              ),
+              text: JSON.stringify({ namedRanges, total: namedRanges.length }, null, 2),
             },
           ],
         };
@@ -232,10 +219,7 @@ export function registerMetadataTools(
     'Lists all charts in a spreadsheet, optionally filtered by sheet name',
     {
       spreadsheet_id: z.string().describe('The ID of the spreadsheet'),
-      sheet_name: z
-        .string()
-        .optional()
-        .describe('Filter charts to a specific sheet'),
+      sheet_name: z.string().optional().describe('Filter charts to a specific sheet'),
     },
     async ({ spreadsheet_id, sheet_name }) => {
       try {
@@ -261,9 +245,13 @@ export function registerMetadataTools(
               sheetName: title,
               chartId: chart.chartId,
               title:
-                chart.spec?.title ?? (chart.spec?.basicChart as Record<string, unknown>)?.title as string ?? 'Untitled',
+                chart.spec?.title ??
+                ((chart.spec?.basicChart as Record<string, unknown>)?.title as string) ??
+                'Untitled',
               chartType:
-                chart.spec?.basicChart?.chartType ?? (chart.spec as Record<string, unknown>)?.chartType as string ?? 'UNKNOWN',
+                chart.spec?.basicChart?.chartType ??
+                ((chart.spec as Record<string, unknown>)?.chartType as string) ??
+                'UNKNOWN',
               position: chart.position,
             });
           }
@@ -273,11 +261,7 @@ export function registerMetadataTools(
           content: [
             {
               type: 'text' as const,
-              text: JSON.stringify(
-                { charts, total: charts.length },
-                null,
-                2,
-              ),
+              text: JSON.stringify({ charts, total: charts.length }, null, 2),
             },
           ],
         };
@@ -324,11 +308,7 @@ export function registerMetadataTools(
           content: [
             {
               type: 'text' as const,
-              text: JSON.stringify(
-                { filterViews, total: filterViews.length },
-                null,
-                2,
-              ),
+              text: JSON.stringify({ filterViews, total: filterViews.length }, null, 2),
             },
           ],
         };

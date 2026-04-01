@@ -106,9 +106,7 @@ export function linearRegression(
 export function detectColumnType(
   values: unknown[],
 ): 'numeric' | 'date' | 'text' | 'mixed' | 'empty' {
-  const nonEmpty = values.filter(
-    (v) => v !== null && v !== undefined && v !== '',
-  );
+  const nonEmpty = values.filter((v) => v !== null && v !== undefined && v !== '');
 
   if (nonEmpty.length === 0) return 'empty';
 

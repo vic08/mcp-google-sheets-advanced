@@ -87,7 +87,8 @@ export class AuthService {
 
       server.listen(0, () => {
         const port = (server.address() as { port: number }).port;
-        (oauth2Client as unknown as { redirectUri_: string }).redirectUri_ = `http://localhost:${port}`;
+        (oauth2Client as unknown as { redirectUri_: string }).redirectUri_ =
+          `http://localhost:${port}`;
 
         const authUrl = oauth2Client.generateAuthUrl({
           access_type: 'offline',

@@ -1,8 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  hexToGoogleColor,
-  googleColorToHex,
-} from '../../../src/utils/color';
+import { hexToGoogleColor, googleColorToHex } from '../../../src/utils/color';
 
 describe('hexToGoogleColor', () => {
   it('converts #FF0000 to red', () => {

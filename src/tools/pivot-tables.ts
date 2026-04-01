@@ -26,10 +26,10 @@ export function registerPivotTools(server: McpServer, sheetsService: SheetsServi
       spreadsheet_id: z.string().describe('The ID of the spreadsheet'),
       source_range: z
         .string()
-        .describe('The source data range in A1 notation including sheet name (e.g. Sheet1!A1:E100)'),
-      destination: z
-        .string()
-        .describe('The destination cell in A1 notation (e.g. Sheet2!A1)'),
+        .describe(
+          'The source data range in A1 notation including sheet name (e.g. Sheet1!A1:E100)',
+        ),
+      destination: z.string().describe('The destination cell in A1 notation (e.g. Sheet2!A1)'),
       rows: z
         .array(
           z.object({
@@ -99,15 +99,23 @@ export function registerPivotTools(server: McpServer, sheetsService: SheetsServi
         }
 
         // Resolve source sheet to sheetId and build source GridRange
-        const sourceSheetId = await sheetsService.resolveSheetId(spreadsheet_id, sourceParsed.sheetName);
+        const sourceSheetId = await sheetsService.resolveSheetId(
+          spreadsheet_id,
+          sourceParsed.sheetName,
+        );
         const sourceGridRange = a1ToGridRange(source_range, sourceSheetId);
 
         // Resolve destination sheet and cell
         const destParsed = parseA1Notation(destination);
         if (!destParsed.sheetName || !destParsed.startCell) {
-          throw new Error('destination must include a sheet name and cell reference (e.g. Sheet2!A1)');
+          throw new Error(
+            'destination must include a sheet name and cell reference (e.g. Sheet2!A1)',
+          );
         }
-        const destSheetId = await sheetsService.resolveSheetId(spreadsheet_id, destParsed.sheetName);
+        const destSheetId = await sheetsService.resolveSheetId(
+          spreadsheet_id,
+          destParsed.sheetName,
+        );
         const destCell = parseCellRef(destParsed.startCell);
 
         // Helper to resolve column name to offset

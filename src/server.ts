@@ -13,10 +13,7 @@ import {
   registerManagementTools,
 } from './tools/index.js';
 
-export function createServer(
-  sheetsService: SheetsService,
-  driveService: DriveService,
-): McpServer {
+export function createServer(sheetsService: SheetsService, driveService: DriveService): McpServer {
   const server = new McpServer({
     name: 'mcp-google-sheets-advanced',
     version: '0.1.0',

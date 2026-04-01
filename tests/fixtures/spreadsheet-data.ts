@@ -8,7 +8,12 @@ export const MOCK_SPREADSHEET_METADATA = {
       properties: {
         sheetId: 0,
         title: 'Sheet1',
-        gridProperties: { rowCount: 1000, columnCount: 26, frozenRowCount: 1, frozenColumnCount: 0 },
+        gridProperties: {
+          rowCount: 1000,
+          columnCount: 26,
+          frozenRowCount: 1,
+          frozenColumnCount: 0,
+        },
       },
       charts: [{ chartId: 1, spec: { title: 'Revenue Chart', basicChart: { chartType: 'LINE' } } }],
       filterViews: [],
@@ -25,7 +30,13 @@ export const MOCK_SPREADSHEET_METADATA = {
     {
       namedRangeId: 'nr1',
       name: 'SalesData',
-      range: { sheetId: 0, startRowIndex: 0, endRowIndex: 100, startColumnIndex: 0, endColumnIndex: 4 },
+      range: {
+        sheetId: 0,
+        startRowIndex: 0,
+        endRowIndex: 100,
+        startColumnIndex: 0,
+        endColumnIndex: 4,
+      },
     },
   ],
 };

@@ -1,9 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  computeStats,
-  linearRegression,
-  detectColumnType,
-} from '../../../src/utils/stats';
+import { computeStats, linearRegression, detectColumnType } from '../../../src/utils/stats';
 
 describe('computeStats', () => {
   it('computes basic stats for [1,2,3,4,5]', () => {

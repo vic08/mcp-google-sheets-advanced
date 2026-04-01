@@ -72,7 +72,10 @@ export function registerFormattingTools(server: McpServer, sheetsService: Sheets
         .describe('Condition values (e.g. threshold numbers, text to match, formula)'),
       format: z
         .object({
-          background_color: z.string().optional().describe('Background color as hex (e.g. #FF0000)'),
+          background_color: z
+            .string()
+            .optional()
+            .describe('Background color as hex (e.g. #FF0000)'),
           text_color: z.string().optional().describe('Text color as hex'),
           bold: z.boolean().optional().describe('Whether text should be bold'),
           italic: z.boolean().optional().describe('Whether text should be italic'),
@@ -261,7 +264,10 @@ export function registerFormattingTools(server: McpServer, sheetsService: Sheets
           font_size: z.number().optional().describe('Font size in points'),
           font_family: z.string().optional().describe('Font family name'),
           text_color: z.string().optional().describe('Text color as hex (e.g. #000000)'),
-          background_color: z.string().optional().describe('Background color as hex (e.g. #FFFFFF)'),
+          background_color: z
+            .string()
+            .optional()
+            .describe('Background color as hex (e.g. #FFFFFF)'),
           number_format: z.string().optional().describe('Number format pattern (e.g. #,##0.00)'),
           horizontal_alignment: z
             .enum(['left', 'center', 'right'])

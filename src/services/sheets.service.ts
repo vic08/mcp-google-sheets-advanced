@@ -22,7 +22,8 @@ export class SheetsService {
     const res = await client.spreadsheets.values.get({
       spreadsheetId,
       range,
-      valueRenderOption: valueRenderOption as sheets_v4.Params$Resource$Spreadsheets$Values$Get['valueRenderOption'],
+      valueRenderOption:
+        valueRenderOption as sheets_v4.Params$Resource$Spreadsheets$Values$Get['valueRenderOption'],
     });
     return res.data;
   }
@@ -36,7 +37,8 @@ export class SheetsService {
     const res = await client.spreadsheets.values.batchGet({
       spreadsheetId,
       ranges,
-      valueRenderOption: valueRenderOption as sheets_v4.Params$Resource$Spreadsheets$Values$Batchget['valueRenderOption'],
+      valueRenderOption:
+        valueRenderOption as sheets_v4.Params$Resource$Spreadsheets$Values$Batchget['valueRenderOption'],
     });
     return res.data;
   }
@@ -128,9 +130,7 @@ export class SheetsService {
       'sheets.properties.sheetId,sheets.properties.title',
     );
 
-    const sheet = spreadsheet.sheets?.find(
-      (s) => s.properties?.title === sheetName,
-    );
+    const sheet = spreadsheet.sheets?.find((s) => s.properties?.title === sheetName);
 
     if (!sheet?.properties?.sheetId && sheet?.properties?.sheetId !== 0) {
       throw new Error(`Sheet "${sheetName}" not found in spreadsheet`);

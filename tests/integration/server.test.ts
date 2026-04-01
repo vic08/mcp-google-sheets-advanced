@@ -28,10 +28,7 @@ describe('MCP Server Integration', () => {
 
     client = new Client({ name: 'test-client', version: '1.0.0' });
 
-    await Promise.all([
-      client.connect(clientTransport),
-      server.server.connect(serverTransport),
-    ]);
+    await Promise.all([client.connect(clientTransport), server.server.connect(serverTransport)]);
   });
 
   afterEach(async () => {

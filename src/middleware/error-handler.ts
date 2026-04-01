@@ -1,10 +1,6 @@
 import type { ToolResult, McpError } from '../types/index.js';
 
-export function createErrorResult(
-  code: string,
-  message: string,
-  retryAfter?: number,
-): ToolResult {
+export function createErrorResult(code: string, message: string, retryAfter?: number): ToolResult {
   const error: McpError = { error: code, message };
   if (retryAfter !== undefined) error.retryAfter = retryAfter;
   return {
@@ -34,10 +30,7 @@ export function handleToolError(error: unknown): ToolResult {
       case 400:
         return createErrorResult('INVALID_INPUT', error.message);
       case 401:
-        return createErrorResult(
-          'AUTH_EXPIRED',
-          'Authentication expired. Please re-authenticate.',
-        );
+        return createErrorResult('AUTH_EXPIRED', 'Authentication expired. Please re-authenticate.');
       case 403:
         return createErrorResult(
           'PERMISSION_DENIED',

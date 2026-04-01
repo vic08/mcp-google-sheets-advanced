@@ -75,7 +75,15 @@ export function registerChartTools(server: McpServer, sheetsService: SheetsServi
           chartSpec.title = title;
         }
 
-        const basicChartTypes = ['bar', 'line', 'area', 'column', 'scatter', 'combo', 'stepped_area'];
+        const basicChartTypes = [
+          'bar',
+          'line',
+          'area',
+          'column',
+          'scatter',
+          'combo',
+          'stepped_area',
+        ];
 
         if (basicChartTypes.includes(chart_type)) {
           const domainRange = {
@@ -274,15 +282,7 @@ export function registerChartTools(server: McpServer, sheetsService: SheetsServi
       chart_id: z.number().describe('The ID of the chart to update'),
       title: z.string().optional().describe('New title for the chart'),
       chart_type: z
-        .enum([
-          'bar',
-          'line',
-          'area',
-          'column',
-          'scatter',
-          'combo',
-          'stepped_area',
-        ])
+        .enum(['bar', 'line', 'area', 'column', 'scatter', 'combo', 'stepped_area'])
         .optional()
         .describe('New chart type (basic chart types only)'),
       data_range: z

@@ -34,10 +34,7 @@ describe('Read Tools', () => {
 
     client = new Client({ name: 'test-client', version: '1.0.0' });
 
-    await Promise.all([
-      client.connect(clientTransport),
-      server.server.connect(serverTransport),
-    ]);
+    await Promise.all([client.connect(clientTransport), server.server.connect(serverTransport)]);
   });
 
   afterEach(async () => {
@@ -188,7 +185,12 @@ describe('Read Tools', () => {
       });
 
       const parsed = parseToolResult(result) as {
-        ranges: Array<{ range: string; values: unknown[][]; row_count: number; column_count: number }>;
+        ranges: Array<{
+          range: string;
+          values: unknown[][];
+          row_count: number;
+          column_count: number;
+        }>;
         total_ranges: number;
       };
 

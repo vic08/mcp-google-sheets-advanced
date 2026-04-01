@@ -4,7 +4,10 @@ import type { SheetsService } from '../services/sheets.service.js';
 import { handleToolError } from '../middleware/error-handler.js';
 import { a1ToGridRange, parseA1Notation } from '../utils/a1-notation.js';
 
-export function registerSheetsManagementTools(server: McpServer, sheetsService: SheetsService): void {
+export function registerSheetsManagementTools(
+  server: McpServer,
+  sheetsService: SheetsService,
+): void {
   server.tool(
     'sheets_create_sheet',
     'Creates a new sheet (tab) in an existing spreadsheet',

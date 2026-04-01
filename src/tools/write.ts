@@ -19,12 +19,19 @@ export function registerWriteTools(server: McpServer, sheetsService: SheetsServi
       input_mode: z
         .enum(['user_entered', 'raw'])
         .default('user_entered')
-        .describe('How input data should be interpreted. user_entered parses as if typed into the UI; raw stores as-is'),
+        .describe(
+          'How input data should be interpreted. user_entered parses as if typed into the UI; raw stores as-is',
+        ),
     },
     async ({ spreadsheet_id, range, values, input_mode }) => {
       try {
         const valueInputOption = INPUT_MODE_MAP[input_mode] ?? 'USER_ENTERED';
-        const result = await sheetsService.updateValues(spreadsheet_id, range, values, valueInputOption);
+        const result = await sheetsService.updateValues(
+          spreadsheet_id,
+          range,
+          values,
+          valueInputOption,
+        );
         return {
           content: [
             {
@@ -91,7 +98,9 @@ export function registerWriteTools(server: McpServer, sheetsService: SheetsServi
     'Appends rows of data after the last row with content in a range',
     {
       spreadsheet_id: z.string().describe('The ID of the spreadsheet'),
-      range: z.string().describe('The A1 notation range to search for a table to append to (e.g. Sheet1!A:E)'),
+      range: z
+        .string()
+        .describe('The A1 notation range to search for a table to append to (e.g. Sheet1!A:E)'),
       values: z.array(z.array(z.any())).describe('2D array of row values to append'),
     },
     async ({ spreadsheet_id, range, values }) => {

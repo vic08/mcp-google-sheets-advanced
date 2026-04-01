@@ -137,7 +137,13 @@ export function a1ToGridRange(
 }
 
 export function gridRangeToA1(
-  range: { sheetId?: number | null; startRowIndex?: number | null; endRowIndex?: number | null; startColumnIndex?: number | null; endColumnIndex?: number | null },
+  range: {
+    sheetId?: number | null;
+    startRowIndex?: number | null;
+    endRowIndex?: number | null;
+    startColumnIndex?: number | null;
+    endColumnIndex?: number | null;
+  },
   sheetName: string,
 ): string {
   const startCol = indexToColumnLetter(range.startColumnIndex ?? 0);

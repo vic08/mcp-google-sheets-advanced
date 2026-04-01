@@ -20,7 +20,13 @@ function mapValueRender(render?: string): string {
 function processRangeResult(
   range: string | undefined | null,
   values: unknown[][] | undefined | null,
-): { range: string; values: unknown[][]; row_count: number; column_count: number; warning?: string } {
+): {
+  range: string;
+  values: unknown[][];
+  row_count: number;
+  column_count: number;
+  warning?: string;
+} {
   const rows = values ?? [];
   const columnCount = rows.reduce((max, row) => Math.max(max, row.length), 0);
   const totalCells = rows.reduce((sum, row) => sum + row.length, 0);
@@ -51,10 +57,7 @@ function processRangeResult(
   };
 }
 
-export function registerReadTools(
-  server: McpServer,
-  sheetsService: SheetsService,
-): void {
+export function registerReadTools(server: McpServer, sheetsService: SheetsService): void {
   server.tool(
     'sheets_read_range',
     'Reads cell values from a specified range in a spreadsheet',
@@ -93,10 +96,7 @@ export function registerReadTools(
     'Reads cell values from multiple ranges in a single batch request',
     {
       spreadsheet_id: z.string().describe('The ID of the spreadsheet'),
-      ranges: z
-        .array(z.string())
-        .min(1)
-        .describe('Array of A1 notation ranges to read'),
+      ranges: z.array(z.string()).min(1).describe('Array of A1 notation ranges to read'),
       value_render: z
         .enum(['formatted', 'unformatted', 'formula'])
         .optional()
@@ -107,11 +107,7 @@ export function registerReadTools(
     async ({ spreadsheet_id, ranges, value_render }) => {
       try {
         const renderOption = mapValueRender(value_render);
-        const result = await sheetsService.batchGetValues(
-          spreadsheet_id,
-          ranges,
-          renderOption,
-        );
+        const result = await sheetsService.batchGetValues(spreadsheet_id, ranges, renderOption);
 
         const rangeResults = (result.valueRanges ?? []).map((vr) =>
           processRangeResult(vr.range, vr.values),
@@ -144,11 +140,7 @@ export function registerReadTools(
     },
     async ({ spreadsheet_id, range }) => {
       try {
-        const result = await sheetsService.getValues(
-          spreadsheet_id,
-          range,
-          'FORMULA',
-        );
+        const result = await sheetsService.getValues(spreadsheet_id, range, 'FORMULA');
 
         const values = result.values ?? [];
         const parsed = parseA1Notation(result.range ?? range);

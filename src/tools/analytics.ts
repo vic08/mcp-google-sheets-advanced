@@ -29,7 +29,9 @@ export function registerAnalyticsTools(server: McpServer, sheetsService: SheetsS
     'Computes summary statistics for columns in a range, with optional grouping',
     {
       spreadsheet_id: z.string().describe('The ID of the spreadsheet'),
-      range: z.string().describe('The A1 notation range to summarize (first row treated as headers)'),
+      range: z
+        .string()
+        .describe('The A1 notation range to summarize (first row treated as headers)'),
       group_by_column: z
         .number()
         .optional()
@@ -66,7 +68,9 @@ export function registerAnalyticsTools(server: McpServer, sheetsService: SheetsS
             const stats: ColumnStats = { header, type: colType };
 
             if (colType === 'numeric') {
-              stats.stats = computeStats(colValues.filter((v): v is number => typeof v === 'number'));
+              stats.stats = computeStats(
+                colValues.filter((v): v is number => typeof v === 'number'),
+              );
             } else {
               const uniqueSet = new Set(colValues.map((v) => String(v ?? '')));
               stats.unique_values = uniqueSet.size;
@@ -76,7 +80,11 @@ export function registerAnalyticsTools(server: McpServer, sheetsService: SheetsS
           });
         };
 
-        if (group_by_column !== undefined && group_by_column >= 0 && group_by_column < headers.length) {
+        if (
+          group_by_column !== undefined &&
+          group_by_column >= 0 &&
+          group_by_column < headers.length
+        ) {
           const groups: Record<string, unknown[][]> = {};
           for (const row of dataRows) {
             const key = String(row[group_by_column] ?? '');
@@ -184,7 +192,11 @@ export function registerAnalyticsTools(server: McpServer, sheetsService: SheetsS
           hashMap.get(key)!.push(i + 2); // +2 for 1-based row number + header row
         }
 
-        const duplicateGroups: Array<{ value: Record<string, unknown>; row_numbers: number[]; count: number }> = [];
+        const duplicateGroups: Array<{
+          value: Record<string, unknown>;
+          row_numbers: number[];
+          count: number;
+        }> = [];
         let duplicateRowCount = 0;
 
         for (const [key, rowNumbers] of hashMap) {
@@ -247,7 +259,8 @@ export function registerAnalyticsTools(server: McpServer, sheetsService: SheetsS
                 type: 'text' as const,
                 text: JSON.stringify(
                   {
-                    error: 'Insufficient data for trend analysis. Need at least 2 data rows plus a header.',
+                    error:
+                      'Insufficient data for trend analysis. Need at least 2 data rows plus a header.',
                   },
                   null,
                   2,
