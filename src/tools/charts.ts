@@ -110,7 +110,7 @@ export function registerChartTools(server: McpServer, sheetsService: SheetsServi
                   ],
                 },
               },
-              targetAxis: 'LEFT_AXIS',
+              targetAxis: chart_type === 'bar' ? 'BOTTOM_AXIS' : 'LEFT_AXIS',
             });
           }
 

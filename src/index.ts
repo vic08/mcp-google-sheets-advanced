@@ -7,6 +7,9 @@ import { SheetsService } from './services/sheets.service.js';
 import { DriveService } from './services/drive.service.js';
 
 async function main() {
+  // Redirect console.log to stderr to prevent corrupting MCP JSON-RPC on stdout
+  console.log = (...args: unknown[]) => console.error('[LOG]', ...args);
+
   const auth = new AuthService();
   const sheetsService = new SheetsService(auth);
   const driveService = new DriveService(auth);

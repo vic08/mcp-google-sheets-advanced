@@ -62,6 +62,8 @@ export class AuthService {
 
   private async startOAuthFlow(oauth2Client: OAuth2Client): Promise<OAuth2Client> {
     return new Promise((resolve, reject) => {
+      let redirectUri = '';
+
       const server = http.createServer(async (req, res) => {
         try {
           const url = new URL(req.url!, `http://localhost`);
@@ -73,7 +75,10 @@ export class AuthService {
 
             server.close();
 
-            const { tokens } = await oauth2Client.getToken(code);
+            const { tokens } = await oauth2Client.getToken({
+              code,
+              redirect_uri: redirectUri,
+            });
             oauth2Client.setCredentials(tokens);
             await this.storeTokens(tokens);
 
@@ -85,21 +90,21 @@ export class AuthService {
         }
       });
 
-      server.listen(0, () => {
+      server.listen(0, 'localhost', () => {
         const port = (server.address() as { port: number }).port;
-        (oauth2Client as unknown as { redirectUri_: string }).redirectUri_ =
-          `http://localhost:${port}`;
+        redirectUri = `http://localhost:${port}`;
 
         const authUrl = oauth2Client.generateAuthUrl({
           access_type: 'offline',
           scope: SCOPES,
-          redirect_uri: `http://localhost:${port}`,
+          redirect_uri: redirectUri,
           prompt: 'consent',
         });
 
         console.error(`Opening browser for Google authentication...`);
+        console.error(`If the browser doesn't open, visit this URL:\n${authUrl}\n`);
         open(authUrl).catch(() => {
-          console.error(`Please open this URL in your browser:\n${authUrl}`);
+          // Browser open failed silently, URL is already printed above
         });
       });
 
