@@ -1,0 +1,13 @@
+version: 1
+name: mcp-google-sheets-advanced
+description: "Advanced Google Sheets MCP server — charts, pivot tables, formulas, formatting, and analytics. 30 tools total."
+runtime: typescript
+entry: src/index.ts
+
+build:
+  install: npm install
+  command: npm run build
+
+startCommand:
+  type: http
+  command: node dist/index.js
