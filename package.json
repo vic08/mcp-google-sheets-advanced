@@ -1,5 +1,5 @@
 {
-  "name": "mcp-google-sheets-advanced",
+  "name": "@vic08/mcp-google-sheets-advanced",
   "version": "0.1.0",
   "description": "Advanced MCP server for Google Sheets — charts, pivot tables, formulas, formatting, and analytics",
   "type": "module",
