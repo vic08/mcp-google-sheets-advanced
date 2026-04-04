@@ -20,6 +20,7 @@ export function registerManagementTools(server: McpServer, sheetsService: Sheets
         )
         .describe('Array of sort specifications applied in order'),
     },
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, range, sort_specs }) => {
       try {
         const parsed = parseA1Notation(range);
@@ -70,6 +71,7 @@ export function registerManagementTools(server: McpServer, sheetsService: Sheets
         .optional()
         .describe('If true, clears the existing basic filter instead of setting one'),
     },
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, range, criteria, clear }) => {
       try {
         const parsed = parseA1Notation(range);
@@ -145,6 +147,7 @@ export function registerManagementTools(server: McpServer, sheetsService: Sheets
         .default(false)
         .describe('If true, shows a warning but still allows editing'),
     },
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, range, description, warning_only }) => {
       try {
         const parsed = parseA1Notation(range);
@@ -200,6 +203,7 @@ export function registerManagementTools(server: McpServer, sheetsService: Sheets
       search_formulas: z.boolean().optional().describe('Whether to search within formulas'),
       use_regex: z.boolean().optional().describe('Whether to treat the find string as a regex'),
     },
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({
       spreadsheet_id,
       find,

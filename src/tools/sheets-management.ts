@@ -17,6 +17,7 @@ export function registerSheetsManagementTools(
       row_count: z.number().default(1000).describe('Number of rows in the new sheet'),
       column_count: z.number().default(26).describe('Number of columns in the new sheet'),
     },
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, title, row_count, column_count }) => {
       try {
         const result = await sheetsService.batchUpdate(spreadsheet_id, [
@@ -62,6 +63,7 @@ export function registerSheetsManagementTools(
       spreadsheet_id: z.string().describe('The ID of the spreadsheet'),
       sheet_name: z.string().describe('The name of the sheet to delete'),
     },
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: false },
     async ({ spreadsheet_id, sheet_name }) => {
       try {
         const sheetId = await sheetsService.resolveSheetId(spreadsheet_id, sheet_name);
@@ -96,6 +98,7 @@ export function registerSheetsManagementTools(
       name: z.string().describe('The name for the named range'),
       range: z.string().describe('The A1 notation range (e.g. Sheet1!A1:C10)'),
     },
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, name, range }) => {
       try {
         const parsed = parseA1Notation(range);

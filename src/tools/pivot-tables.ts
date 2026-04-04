@@ -64,6 +64,7 @@ export function registerPivotTools(server: McpServer, sheetsService: SheetsServi
         )
         .describe('Value fields for the pivot table'),
     },
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, source_range, destination, rows, columns, values }) => {
       try {
         // Parse source range to get sheet name and range

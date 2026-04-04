@@ -37,6 +37,7 @@ export function registerAnalyticsTools(server: McpServer, sheetsService: SheetsS
         .optional()
         .describe('0-based column index to group by before computing stats'),
     },
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, range, group_by_column }) => {
       try {
         const result = await sheetsService.getValues(spreadsheet_id, range, 'UNFORMATTED_VALUE');
@@ -156,6 +157,7 @@ export function registerAnalyticsTools(server: McpServer, sheetsService: SheetsS
         .optional()
         .describe('0-based column indices to check for duplicates (default: all columns)'),
     },
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, range, columns }) => {
       try {
         const result = await sheetsService.getValues(spreadsheet_id, range, 'UNFORMATTED_VALUE');
@@ -247,6 +249,7 @@ export function registerAnalyticsTools(server: McpServer, sheetsService: SheetsS
       range: z.string().describe('The A1 notation range to analyze (first row treated as headers)'),
       value_column: z.number().describe('0-based column index of the values to analyze'),
     },
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, range, value_column }) => {
       try {
         const result = await sheetsService.getValues(spreadsheet_id, range, 'UNFORMATTED_VALUE');

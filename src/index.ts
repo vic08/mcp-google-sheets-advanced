@@ -7,7 +7,6 @@ import { AuthService } from './services/auth.service.js';
 import { SheetsService } from './services/sheets.service.js';
 import { DriveService } from './services/drive.service.js';
 import http from 'http';
-import crypto from 'crypto';
 
 async function main() {
   // Redirect console.log to stderr to prevent corrupting MCP JSON-RPC on stdout
@@ -23,8 +22,10 @@ async function main() {
 
   if (port) {
     // HTTP mode for hosted deployment (MCPize, etc.)
+    // sessionIdGenerator: undefined = stateless mode (no session required)
+    // This allows Smithery's scanner to discover tools without session management
     const transport = new StreamableHTTPServerTransport({
-      sessionIdGenerator: () => crypto.randomUUID(),
+      sessionIdGenerator: undefined,
     });
 
     await mcpServer.connect(transport);

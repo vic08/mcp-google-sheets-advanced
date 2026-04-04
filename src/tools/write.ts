@@ -23,6 +23,7 @@ export function registerWriteTools(server: McpServer, sheetsService: SheetsServi
           'How input data should be interpreted. user_entered parses as if typed into the UI; raw stores as-is',
         ),
     },
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, range, values, input_mode }) => {
       try {
         const valueInputOption = INPUT_MODE_MAP[input_mode] ?? 'USER_ENTERED';
@@ -69,6 +70,7 @@ export function registerWriteTools(server: McpServer, sheetsService: SheetsServi
         )
         .describe('Array of range-value pairs to write'),
     },
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, data }) => {
       try {
         const result = await sheetsService.batchUpdateValues(spreadsheet_id, data);
@@ -103,6 +105,7 @@ export function registerWriteTools(server: McpServer, sheetsService: SheetsServi
         .describe('The A1 notation range to search for a table to append to (e.g. Sheet1!A:E)'),
       values: z.array(z.array(z.any())).describe('2D array of row values to append'),
     },
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, range, values }) => {
       try {
         const result = await sheetsService.appendValues(spreadsheet_id, range, values);
@@ -134,6 +137,7 @@ export function registerWriteTools(server: McpServer, sheetsService: SheetsServi
       spreadsheet_id: z.string().describe('The ID of the spreadsheet'),
       range: z.string().describe('The A1 notation range to clear (e.g. Sheet1!A1:C10)'),
     },
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: false },
     async ({ spreadsheet_id, range }) => {
       try {
         await sheetsService.clearValues(spreadsheet_id, range);

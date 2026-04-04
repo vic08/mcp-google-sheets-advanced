@@ -91,6 +91,7 @@ export function registerFormattingTools(server: McpServer, sheetsService: Sheets
         .optional()
         .describe('Color scale configuration (only used when rule_type is color_scale)'),
     },
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, range, rule_type, values, format, color_scale }) => {
       try {
         const parsed = parseA1Notation(range);
@@ -209,6 +210,7 @@ export function registerFormattingTools(server: McpServer, sheetsService: Sheets
         .default(true)
         .describe('Whether to reject invalid input (true) or show a warning (false)'),
     },
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, range, validation_type, values, strict }) => {
       try {
         const parsed = parseA1Notation(range);
@@ -284,6 +286,7 @@ export function registerFormattingTools(server: McpServer, sheetsService: Sheets
         })
         .describe('Formatting options to apply'),
     },
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, range, format }) => {
       try {
         const parsed = parseA1Notation(range);

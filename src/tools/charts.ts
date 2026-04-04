@@ -64,6 +64,7 @@ export function registerChartTools(server: McpServer, sheetsService: SheetsServi
         .optional()
         .describe('Additional chart options'),
     },
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, sheet_name, data_range, chart_type, title, position, options }) => {
       try {
         const sheetId = await sheetsService.resolveSheetId(spreadsheet_id, sheet_name);
@@ -290,6 +291,7 @@ export function registerChartTools(server: McpServer, sheetsService: SheetsServi
         .optional()
         .describe('New data range in A1 notation (e.g. Sheet1!A1:C20)'),
     },
+    { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, chart_id, title, chart_type, data_range }) => {
       try {
         // Fetch the current chart spec
@@ -436,6 +438,7 @@ export function registerChartTools(server: McpServer, sheetsService: SheetsServi
       spreadsheet_id: z.string().describe('The ID of the spreadsheet'),
       chart_id: z.number().describe('The ID of the chart to delete'),
     },
+    { readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: false },
     async ({ spreadsheet_id, chart_id }) => {
       try {
         await sheetsService.batchUpdate(spreadsheet_id, [

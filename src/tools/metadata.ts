@@ -23,6 +23,7 @@ export function registerMetadataTools(
         .optional()
         .describe('Maximum number of results to return (default 20, max 100)'),
     },
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ query, max_results }) => {
       try {
         const spreadsheets = await driveService.listSpreadsheets(query, max_results ?? 20);
@@ -46,6 +47,7 @@ export function registerMetadataTools(
     {
       spreadsheet_id: z.string().describe('The ID of the spreadsheet'),
     },
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id }) => {
       try {
         const spreadsheet = await sheetsService.getSpreadsheet(
@@ -116,6 +118,7 @@ export function registerMetadataTools(
       spreadsheet_id: z.string().describe('The ID of the spreadsheet'),
       sheet_name: z.string().describe('The name of the sheet'),
     },
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, sheet_name }) => {
       try {
         const spreadsheet = await sheetsService.getSpreadsheet(spreadsheet_id, 'sheets.properties');
@@ -173,6 +176,7 @@ export function registerMetadataTools(
     {
       spreadsheet_id: z.string().describe('The ID of the spreadsheet'),
     },
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id }) => {
       try {
         const spreadsheet = await sheetsService.getSpreadsheet(
@@ -221,6 +225,7 @@ export function registerMetadataTools(
       spreadsheet_id: z.string().describe('The ID of the spreadsheet'),
       sheet_name: z.string().optional().describe('Filter charts to a specific sheet'),
     },
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, sheet_name }) => {
       try {
         const spreadsheet = await sheetsService.getSpreadsheet(
@@ -277,6 +282,7 @@ export function registerMetadataTools(
     {
       spreadsheet_id: z.string().describe('The ID of the spreadsheet'),
     },
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id }) => {
       try {
         const spreadsheet = await sheetsService.getSpreadsheet(

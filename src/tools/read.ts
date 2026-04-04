@@ -71,6 +71,7 @@ export function registerReadTools(server: McpServer, sheetsService: SheetsServic
           'How values should be rendered: formatted (default), unformatted (raw numbers), or formula',
         ),
     },
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, range, value_render }) => {
       try {
         const renderOption = mapValueRender(value_render);
@@ -104,6 +105,7 @@ export function registerReadTools(server: McpServer, sheetsService: SheetsServic
           'How values should be rendered: formatted (default), unformatted (raw numbers), or formula',
         ),
     },
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, ranges, value_render }) => {
       try {
         const renderOption = mapValueRender(value_render);
@@ -138,6 +140,7 @@ export function registerReadTools(server: McpServer, sheetsService: SheetsServic
       spreadsheet_id: z.string().describe('The ID of the spreadsheet'),
       range: z.string().describe('The A1 notation range to inspect for formulas'),
     },
+    { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     async ({ spreadsheet_id, range }) => {
       try {
         const result = await sheetsService.getValues(spreadsheet_id, range, 'FORMULA');
