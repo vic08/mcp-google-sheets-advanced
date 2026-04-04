@@ -28,9 +28,21 @@ async function main() {
 
     await mcpServer.connect(transport);
 
+    const serverCard = {
+      name: 'mcp-google-sheets-advanced',
+      description: 'Advanced Google Sheets MCP server — charts, pivot tables, formulas, formatting, and analytics. 30 tools total.',
+      version: '0.1.0',
+      tools: 30,
+      homepage: 'https://github.com/vic08/mcp-google-sheets-advanced',
+      transport: { type: 'streamable-http', url: '/mcp' },
+    };
+
     const httpServer = http.createServer(async (req, res) => {
       if (req.url === '/mcp' || req.url === '/') {
         await transport.handleRequest(req, res);
+      } else if (req.url === '/.well-known/mcp/server-card.json') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(serverCard));
       } else if (req.url === '/health') {
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ status: 'ok' }));
