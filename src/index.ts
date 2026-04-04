@@ -7,6 +7,7 @@ import { AuthService } from './services/auth.service.js';
 import { SheetsService } from './services/sheets.service.js';
 import { DriveService } from './services/drive.service.js';
 import http from 'http';
+import crypto from 'crypto';
 
 async function main() {
   // Redirect console.log to stderr to prevent corrupting MCP JSON-RPC on stdout
@@ -23,7 +24,7 @@ async function main() {
   if (port) {
     // HTTP mode for hosted deployment (MCPize, etc.)
     const transport = new StreamableHTTPServerTransport({
-      sessionIdGenerator: undefined,
+      sessionIdGenerator: () => crypto.randomUUID(),
     });
 
     await mcpServer.connect(transport);
@@ -39,7 +40,14 @@ async function main() {
 
     const httpServer = http.createServer(async (req, res) => {
       if (req.url === '/mcp' || req.url === '/') {
-        await transport.handleRequest(req, res);
+        try {
+          await transport.handleRequest(req, res);
+        } catch {
+          if (!res.headersSent) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Internal server error' }));
+          }
+        }
       } else if (req.url === '/.well-known/mcp/server-card.json') {
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(serverCard));
