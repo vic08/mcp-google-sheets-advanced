@@ -16,23 +16,15 @@ async function main() {
   const sheetsService = new SheetsService(auth);
   const driveService = new DriveService(auth);
 
-  const mcpServer = createServer(sheetsService, driveService);
-
   const port = process.env['PORT'];
 
   if (port) {
     // HTTP mode for hosted deployment (MCPize, etc.)
-    // sessionIdGenerator: undefined = stateless mode (no session required)
-    // This allows Smithery's scanner to discover tools without session management
-    const transport = new StreamableHTTPServerTransport({
-      sessionIdGenerator: undefined,
-    });
-
-    await mcpServer.connect(transport);
-
+    // In stateless mode, each request needs a fresh transport + server pair
     const serverCard = {
       name: 'mcp-google-sheets-advanced',
-      description: 'Advanced Google Sheets MCP server — charts, pivot tables, formulas, formatting, and analytics. 30 tools total.',
+      description:
+        'Advanced Google Sheets MCP server — charts, pivot tables, formulas, formatting, and analytics. 30 tools total.',
       version: '0.1.0',
       tools: 30,
       homepage: 'https://github.com/vic08/mcp-google-sheets-advanced',
@@ -42,6 +34,12 @@ async function main() {
     const httpServer = http.createServer(async (req, res) => {
       if (req.url === '/mcp' || req.url === '/') {
         try {
+          const transport = new StreamableHTTPServerTransport({
+            sessionIdGenerator: undefined,
+          });
+          const server = createServer(sheetsService, driveService);
+          res.on('close', () => transport.close());
+          await server.connect(transport);
           await transport.handleRequest(req, res);
         } catch {
           if (!res.headersSent) {
@@ -66,6 +64,7 @@ async function main() {
     });
   } else {
     // stdio mode for local usage (Claude Desktop, Cline, etc.)
+    const mcpServer = createServer(sheetsService, driveService);
     const transport = new StdioServerTransport();
     await mcpServer.connect(transport);
   }
